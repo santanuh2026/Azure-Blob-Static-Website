@@ -20,4 +20,4 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
-          az storage blob upload-batch --account-name githubactionstatic23 --auth-mode key --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" -d '$web' -s
+          az storage blob upload-batch --account-name githubactionstatic23 --auth-mode key --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" -d '$web' -s ./
