@@ -1,0 +1,31 @@
+name: Deploy Static Website to Azure Blob
+
+on:
+  push:
+    branches:
+      - main # Triggers the deployment every time you push to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    # Step 1: Check out the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Step 2: (Optional) Build your project if using React/Vue/Angular
+    # If you are using raw HTML/CSS, you can delete this step.
+    - name: Install dependencies and build
+      run: |
+        npm install
+        npm run build
+
+    # Step 3: Log in to Azure and upload files to the $web container
+    - name: Upload to Azure Blob Storage
+      uses: azure/CLI@v2
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az storage blob upload-batch --account-name githubactionstatic23 --auth-mode key --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" -d '$web' -s
+      
